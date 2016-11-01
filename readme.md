@@ -43,4 +43,4 @@ See [this blog post](http://www.hurryupandwait.io/blog/creating-a-hyper-v-vagran
 
 [Boxstarter](http://boxstarter.org) is used by some templates for initial provisioning. Due to the fact that provisioning takes place in the builder and not a provisioner, it can be difficult to gain visibility into why things go wrong from the same console where `packer` is run.
 
-Boxstarter will log all package activity output to `$env:LocalAppData\Boxstarter\boxstarter.log` on the guest. - Change
+Boxstarter will log all package activity output to `$env:LocalAppData\Boxstarter\boxstarter.log` on the guest.
