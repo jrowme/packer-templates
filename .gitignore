@@ -8,3 +8,4 @@ output-qemu
 vendor
 Vagrantfile
 .vagrant/
+.vbox*
