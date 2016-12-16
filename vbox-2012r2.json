@@ -71,22 +71,12 @@
     }
   ],
   "post-processors": [
-    [{
+    {
       "type": "vagrant",
       "keep_input_artifact": true,
       "output": "windows2012r2min-{{.Provider}}.box",
       "vagrantfile_template": "vagrantfile-windows.template"
-    },
-    {
-      "type": "atlas",
-      "only": ["virtualbox-iso-atlas"],
-      "artifact": "mwrock/Windows2012R2{{user `core`}}",
-      "artifact_type": "vagrant.box",
-      "metadata": {
-        "provider": "virtualbox",
-        "version": "0.5.2"
-      }
-    }]
+    }
   ],
   "variables": {
     "core": "",
