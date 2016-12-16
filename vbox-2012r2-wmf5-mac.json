@@ -12,7 +12,6 @@
           [ "storageattach", "{{.Name}}", "--storagectl", "IDE Controller", "--port", "1", "--device", "0", "--medium", "none"]
       ],
       "guest_additions_mode": "{{ user `guest_additions_mode` }}",
-      "guest_additions_path": "C:/users/vagrant/VBoxGuestAdditions.iso",
       "guest_os_type": "Windows2012_64",
       "headless": "{{ user `headless` }}",
       "iso_url": "{{ user `iso_url` }}",
@@ -22,38 +21,67 @@
       "winrm_username": "vagrant",
       "winrm_password": "vagrant",
       "winrm_timeout": "12h",
-      "shutdown_command": "a:/PackerShutdown.bat",
+      "shutdown_command": "C:/Windows/Panther/Unattend/packer_shutdown.bat",
       "shutdown_timeout": "15m",
       "floppy_files": [
-        "answer_files/2012_r2{{user `core`}}/Autounattend.xml",
-        "scripts/oracle.cer",
-        "scripts/postunattend.xml",
-        "scripts/boxstarter.ps1",
-        "scripts/PackerShutdown.bat",
-        "scripts/package.ps1",
-        "scripts/SetupComplete-2012.cmd",
-        "scripts/Test-Command.ps1"
+        "answer_files/2012_r2/Autounattend.xml",
+        "scripts/winrm.ps1"
       ]
     }
   ],
   "provisioners": [
     {
-      "type": "powershell",
-      "inline": ["choco install powershell -y"],
-      "elevated_user": "vagrant",
-      "elevated_password": "vagrant",
-      "valid_exit_codes": [
-        0,
-        3010
+      "type": "chef-solo",
+      "cookbook_paths": ["cookbooks", "vendor/cookbooks"],
+      "guest_os_type": "windows",
+      "run_list": [
+        "wsus-client::configure",
+        "packer-templates::install_ps_modules",
+        "packer-templates::vbox_guest_additions",
+        "packer-templates::uninstall_powershell_ise",
+        "packer-templates::delete_pagefile"
       ]
     },
     {
+      "type": "powershell",
+      "inline": ["scripts/windows-updates.ps1"],
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    },
+    {
       "type": "windows-restart",
-      "restart_timeout": "1h"
+      "restart_timeout": "15m"
     },
     {
       "type": "powershell",
-      "script": "scripts/provision.ps1"
+      "script": "scripts/after-reboot.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
+    },
+    {
+      "type": "chef-solo",
+      "remote_cookbook_paths": [
+        "c:/windows/temp/packer-chef-client/cookbooks-0",
+        "c:/windows/temp/packer-chef-client/cookbooks-1"
+      ],
+      "guest_os_type": "windows",
+      "skip_install": "true",
+      "run_list": [
+        "packer-templates::enable_file_sharing",
+        "packer-templates::remote_desktop",
+        "packer-templates::clean_sxs",
+        "packer-templates::add_postunattend",
+        "packer-templates::add_pagefile",
+        "packer-templates::set_local_account_token_filter_policy",
+        "packer-templates::remove_dirs",
+        "packer-templates::add_setup_complete"
+      ]
+    },
+    {
+      "type": "powershell",
+      "script": "scripts/cleanup.ps1",
+      "elevated_user": "vagrant",
+      "elevated_password": "vagrant"
     }
   ],
   "post-processors": [
@@ -65,9 +93,8 @@
     }
   ],
   "variables": {
-    "core": "",
     "guest_additions_mode": "attach",
-    "headless": "true",
+    "headless": "false",
     "iso_checksum": "247eaee5628850a41f0c51471656aafb2492ea08",
     "iso_url": "/Users/henih2/Downloads/iso/SW_DVD9_Windows_Svr_Std_and_DataCtr_2012_R2_64Bit_English_-4_MLF_X19-82891.ISO"
   }

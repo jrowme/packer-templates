@@ -23,7 +23,7 @@
                 <NetworkLocation>Home</NetworkLocation>
                 <HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
             </OOBE>
-            <TimeZone>UTC</TimeZone>
+            <TimeZone>EST</TimeZone>
             <UserAccounts>
                 <AdministratorPassword>
                     <Value>vagrant</Value>
