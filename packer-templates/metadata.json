@@ -1,0 +1,43 @@
+{
+  "name": "packer-templates",
+  "description": "Resources run during packer builds",
+  "long_description": "Resources run during packer builds",
+  "maintainer": "Matt Wrock",
+  "maintainer_email": "matt@mattwrock.com",
+  "license": "all_rights",
+  "platforms": {
+  },
+  "dependencies": {
+    "windows": ">= 0.0.0",
+    "wsus-client": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.1.0",
+  "source_url": "",
+  "issues_url": "",
+  "privacy": false,
+  "chef_versions": [
+
+  ],
+  "ohai_versions": [
+
+  ],
+  "gems": [
+
+  ]
+}
